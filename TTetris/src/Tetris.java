@@ -11,9 +11,10 @@ public class Tetris {
     	Controller Jem = new Controller();
     	Jem.init();
     	Jem.curUi = new TetrisUI(args);
-//    	(Jem.curUi).addKeyListener(new Controller());
-//    	(Jem.curUi).setFocusable(true);
-//    	Jem.curUi.run();    			
+    	(Jem.curUi).addKeyListener(Jem);
+    	(Jem.curUi).setFocusable(true);
+    	Jem.curUi.requestFocusInWindow();
+    	Jem.curUi.run();    			
     	
     	
     }
