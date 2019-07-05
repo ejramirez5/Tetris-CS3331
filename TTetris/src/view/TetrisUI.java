@@ -110,7 +110,7 @@ public class TetrisUI extends AnimationApplet implements Observer {
         	}
     }
     private void drawScore(Graphics g) {
-    	g.setColor(Color.black); //might need to change to blue
+    	g.setColor(Color.blue); //might need to change to blue
     	g.fillRect(395, 285, 60, 20);
     	g.setColor(Color.white);
     	g.setFont(new Font( "Helvetica", Font.PLAIN, 15));
