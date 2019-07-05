@@ -31,10 +31,10 @@ public class Controller implements KeyListener {
 		curUi.yPos = curGame.currentYCord;
 		curUi.nextTet = curUi.curTet.getRandomTetromino();
 		curUi.nextTetromino = new Tetromino(curUi.nextTet);
-		curUi.addKeyListener(this);
-		curUi.setFocusable(true);
-		curUi.requestFocusInWindow();
-		curUi.run();
+//		curUi.addKeyListener(this);
+//		curUi.setFocusable(true);
+//		curUi.requestFocusInWindow();
+//		curUi.run();
 		return;
 	}
 	public void updateUi() {
