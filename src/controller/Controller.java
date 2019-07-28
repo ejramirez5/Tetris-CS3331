@@ -15,33 +15,36 @@ import java.awt.event.KeyListener;
  * @author epadilla2
  *
  */
+
 public class Controller implements KeyListener {
-	public GameState curGame;
+	public static GameState curGame;
 	public TetrisUI curUi;
 	public Controller(){
 	}
 	public  void init() { // need to create new instance of both view and game state
 		curGame = new GameState();
 		curGame.board_init();
-		curUi = new TetrisUI() ;
-		curUi.init();
-		curUi.board = curGame.board;
+//		curUi = new TetrisUI(args) ;
+//		curUi.init();
+//		curUi.board = curGame.board;
 		curUi.curTet = curGame.currentType;
 		curUi.curTetromino = curGame.currentTetromino;
 		curUi.xPos = curGame.currentXCord;
-		curUi.yPos = curGame.currentYCord;
-		curUi.nextTet = curUi.curTet.getRandomTetromino();
-		curUi.nextTetromino = new Tetromino(curUi.nextTet);
+//		curUi.yPos = curGame.currentYCord;
+		curUi.nextTet = curGame.nextType;
+		curUi.nextTetromino = curGame.nextTetromino;
 		return;
 	}
 	public void updateUi() {
 		curUi.curTetromino = curGame.currentTetromino;
+		curUi.curTet = curGame.currentType;
 		curUi.xPos = curGame.currentXCord;
-		curUi.yPos = curGame.currentYCord;
+//		curUi.yPos = curGame.currentYCord;
 		curUi.score = curGame.getScore();
 		curUi.level = curGame.getLevel();
 		curUi.linesCleared = curGame.getTotalLinesCleared();
-		curUi.board = curGame.board;
+//		curUi.board = curGame.board;
+		curUi.repaint();
 	}
 	/**
 	 * Defines action when a key is pressed
@@ -53,7 +56,7 @@ public class Controller implements KeyListener {
 		//pause
 		if  (keyCode == KeyEvent.VK_ESCAPE)
 		{
-			//your code goes here
+			//code goes here
 			return;
 		}
 		
@@ -64,16 +67,11 @@ public class Controller implements KeyListener {
         	if(!curGame.validatePosition()) {
         		curGame.moveTetrominoUp();
         		curGame.collision();
-//        		curUi.board = curGame.board;
-        		curGame.currentTetromino = curUi.nextTetromino; // maybe change how this information is exchanged
-        		curUi.curTet = curUi.nextTet;
         		if(!curGame.validatePosition()) {
-        			//game ends
+        			curGame.setIsGameActive(false);
         		}
-//        		curUi.xPos = curGame.currentXCord;
-//        		curUi.yPos = curGame.currentYCord;
-        		curUi.nextTet = curUi.curTet.getRandomTetromino();
-        		curUi.nextTetromino = new Tetromino(curUi.nextTet);
+        		curUi.nextTet = curGame.nextType;
+        		curUi.nextTetromino = curGame.nextTetromino;
         		
         	}
         	updateUi();
