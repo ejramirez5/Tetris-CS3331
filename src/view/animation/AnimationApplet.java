@@ -11,9 +11,9 @@ public class AnimationApplet extends NoApplet {
 	protected Timer timer = null;  
 	protected int delay;
 	
-	public AnimationApplet() { // add this not sure if fine :/
+//	public AnimationApplet() { // add this not sure if fine :/
 		
-	}
+	//}
 	public AnimationApplet(String[] args) {
 		super(args);
 	}
