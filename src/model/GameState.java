@@ -12,13 +12,13 @@ public class GameState extends java.util.Observable{
     private int score = 0 ;
     private int totalLinesCleared = 0;
     private boolean isGameActive;
-   public  char[][] board;   // board with final positions
+   public static char[][] board;   // board with final positions
    public Tetromino.TetrominoEnum currentType;
    public Tetromino currentTetromino;          // current Tetromino
    public Tetromino.TetrominoEnum nextType;
    public Tetromino nextTetromino;
    public int currentXCord;
-   public int currentYCord;
+   public static int currentYCord;
    
    public GameState()
    {
@@ -34,11 +34,17 @@ public class GameState extends java.util.Observable{
        currentTetromino = new Tetromino(currentType);
        nextType = nextType.getRandomTetromino();
        nextTetromino = new Tetromino(nextType);
-       currentXCord = 4;
-       currentYCord = -1;
+       currentXCord = 2;
+       currentYCord = -2;
        
    }
    
+   public void newTetromino() {
+       currentType = nextType;
+       currentTetromino = nextTetromino;
+       nextType = nextType.getRandomTetromino();
+       nextTetromino = new Tetromino(nextType);	   
+   }
    public void place_tetromino(){    // need to simplify
        if(validateTetrominoinBounds()){
            for(int i = 0; i < currentTetromino.sqrCoords.length;i++){
@@ -71,6 +77,9 @@ public class GameState extends java.util.Observable{
    public int getLevel(){
        return level;
    }
+   public void setIsGameActive(boolean isGameActive) {
+	   this.isGameActive = isGameActive;
+   }
    /*
     * Returns totalLines Cleared
     */
@@ -97,8 +106,9 @@ public class GameState extends java.util.Observable{
    /**
     * Moves tetromino down
     */
-   public void moveTetrominoDown(){
-       currentYCord += 1;
+   public static void moveTetrominoDown(){
+       currentYCord ++;
+       
    }
    
    public void moveTetrominoRight(){
@@ -133,7 +143,8 @@ public class GameState extends java.util.Observable{
 	   for(int j =9; j>=0;j--) {
 		   board[0][j] = 0;
 	   }
-	   
+	   setChanged();
+	   notifyObservers();   
    }
   
    /**
@@ -144,10 +155,10 @@ public class GameState extends java.util.Observable{
 	{
        for(int i = 0; i < currentTetromino.sqrCoords.length;i++){
            for (int j = 0; j < currentTetromino.sqrCoords[i].length-1; j++){
-              if((currentTetromino.sqrCoords[i][j])+ currentXCord >9||currentTetromino.sqrCoords[i][j] + currentXCord <0){ // verify that is bounded x
+              if((currentTetromino.sqrCoords[i][j])+ currentXCord >9||currentTetromino.sqrCoords[i][j] + currentXCord < 0){ // verify that is bounded x
             	  return false;
               }
-              if(currentTetromino.sqrCoords[i][j+1]+currentYCord > 19 ) {
+              if(currentTetromino.sqrCoords[i][j+1]+currentYCord > 19 ||currentTetromino.sqrCoords[i][j+1] +currentYCord <0 ) {
             	  return false;
               }
            }
@@ -161,7 +172,6 @@ public class GameState extends java.util.Observable{
 	 int j = 0;
      for(int i = 0; i<4;i++) {
     	 if( board[currentYCord + (int)currentTetromino.sqrCoords[i][j+1]][currentXCord +(int)currentTetromino.sqrCoords[i][j]] != 0){
-    		 System.out.println("Invalid Postion");
     		 return false;
     	 }
      }
@@ -205,8 +215,13 @@ public class GameState extends java.util.Observable{
 			default:
 				break;
 		}
-		currentXCord = 4;
-		currentYCord = -1;
+		currentXCord = 2;
+		currentYCord = -2;
+		newTetromino();
+		
+		   setChanged();
+		   notifyObservers();  
+		
    }
 }
 
